@@ -307,7 +307,8 @@ const AppSidebar: React.FC = () => {
       </div>
       <div className="flex flex-col">
         <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">
-          G-Ticket
+          ATABİLET
+          
         </span>
         <span className="text-xs text-gray-500 dark:text-gray-400 leading-none mt-1">
           Admin Panel
