@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState,useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "../context/SidebarContext";
 import {
@@ -300,33 +299,27 @@ const AppSidebar: React.FC = () => {
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
-        <Link href="/">
-          {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <Image
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <Image
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
-          ) : (
-            <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
-          )}
-        </Link>
+           <Link href="/">
+  {isExpanded || isHovered || isMobileOpen ? (
+    <div className="flex items-center gap-2">
+      <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-brand-500 text-white font-bold text-lg">
+        G
+      </div>
+      <div className="flex flex-col">
+        <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">
+          G-Ticket
+        </span>
+        <span className="text-xs text-gray-500 dark:text-gray-400 leading-none mt-1">
+          Admin Panel
+        </span>
+      </div>
+    </div>
+  ) : (
+    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-brand-500 text-white font-bold text-lg">
+      G
+    </div>
+  )}
+</Link>
       </div>
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
