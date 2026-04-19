@@ -29,17 +29,17 @@ function buildQuery(params: BookingListParams): string {
 export const bookingsApi = {
   list(params: BookingListParams = {}) {
     return api.get<AdminBookingListResponse>(
-      `/admin/bookings${buildQuery(params)}`,
+      `/api/admin/bookings${buildQuery(params)}`,
     );
   },
 
   get(id: string) {
-    return api.get<AdminBookingDetail>(`/admin/bookings/${id}`);
+    return api.get<AdminBookingDetail>(`/api/admin/bookings/${id}`);
   },
 
   seed() {
     return api.post<{ message: string; count: number }>(
-      "/admin/seed/bookings",
+      "/api/admin/seed/bookings",
     );
   },
 };
