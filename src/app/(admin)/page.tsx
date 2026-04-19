@@ -1,42 +1,31 @@
 import type { Metadata } from "next";
-import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
 import React from "react";
-import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
-import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
-import StatisticsChart from "@/components/ecommerce/StatisticsChart";
-import RecentOrders from "@/components/ecommerce/RecentOrders";
-import DemographicCard from "@/components/ecommerce/DemographicCard";
+import { DashboardMetrics } from "@/components/ecommerce/DashboardMetrics";
+import RevenueChart from "@/components/ecommerce/RevenueChart";
+import RecentBookings from "@/components/ecommerce/RecentBookings";
 
 export const metadata: Metadata = {
-  title:
-    "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js Home for TailAdmin Dashboard Template",
+  title: "Dashboard | ATABİLET Admin",
+  description: "ATABİLET Admin Panel - Genel Bakış",
 };
 
-export default function Ecommerce() {
+export default function Dashboard() {
   return (
-    <div className="grid grid-cols-12 gap-4 md:gap-6">
-      <div className="col-span-12 space-y-6 xl:col-span-7">
-        <EcommerceMetrics />
-
-        <MonthlySalesChart />
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white/90">
+          Hoş geldin !
+        </h1>
+        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Bugünkü operasyonel özet aşağıda.
+        </p>
       </div>
 
-      <div className="col-span-12 xl:col-span-5">
-        <MonthlyTarget />
-      </div>
+      <DashboardMetrics />
 
-      <div className="col-span-12">
-        <StatisticsChart />
-      </div>
+      <RevenueChart />
 
-      <div className="col-span-12 xl:col-span-5">
-        <DemographicCard />
-      </div>
-
-      <div className="col-span-12 xl:col-span-7">
-        <RecentOrders />
-      </div>
+      <RecentBookings />
     </div>
   );
 }
