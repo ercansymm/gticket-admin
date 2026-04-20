@@ -125,7 +125,7 @@ export default function BookingDetailModal({ bookingId, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/50 pt-10 pb-10 overflow-y-auto"
+      className="fixed inset-0 z-999999 flex items-start justify-center bg-black/50 pt-10 pb-10 overflow-y-auto"
       onClick={handleBackdropClick}
     >
       <div className="w-full max-w-2xl mx-4 rounded-2xl border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900">

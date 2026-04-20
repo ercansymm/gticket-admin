@@ -7,7 +7,8 @@ export default function SidebarWidget() {
         ATABİLET Admin
       </h3>
       <p className="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        ATABİLET yonetim paneli. Surum 1.0.0
+        ATABİLET yonetim paneli.
+        <br />  V 3.1.0
       </p>
       <a
         href="https://atabilet.com"
