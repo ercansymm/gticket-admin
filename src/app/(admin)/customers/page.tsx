@@ -14,7 +14,7 @@ export default function CustomersPage() {
           Müşteriler
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Tüm müşterileri görüntüle, ara ve filtrele.
+          Rezervasyon yapmış kullanıcıların listesi
         </p>
       </div>
 

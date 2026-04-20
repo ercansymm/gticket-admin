@@ -180,3 +180,19 @@ export interface AdminBookingDetail {
   passengers: AdminPassenger[];
   logs: AdminBookingLog[];
 }
+
+// ===== Customers =====
+
+export interface CustomerListItem {
+  fullName: string;
+  email: string;
+  phone: string | null;
+  bookingCount: number;
+}
+
+export interface CustomerListResponse {
+  items: CustomerListItem[];
+  totalCount: number;
+  page: number;
+  pageSize: number;
+}
