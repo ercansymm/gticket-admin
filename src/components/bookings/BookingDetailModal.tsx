@@ -184,7 +184,7 @@ export default function BookingDetailModal({ bookingId, onClose }: Props) {
               <div className="grid grid-cols-2 gap-4">
                 <InfoItem label="PNR" value={detail.pnr ?? "—"} mono />
                 <InfoItem
-                  label="İç PNR"
+                  label="ATA PNR"
                   value={detail.internalPnr ?? "—"}
                   mono
                 />
