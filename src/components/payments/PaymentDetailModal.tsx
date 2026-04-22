@@ -39,13 +39,30 @@ const paymentTypeLabel: Record<string, string> = {
 
 function formatDate(iso: string | null): string {
   if (!iso) return "—";
-  return new Date(iso).toLocaleString("tr-TR", {
+  // DB timestamps have no timezone suffix; treat them as UTC
+  const normalized =
+    iso.endsWith("Z") || iso.includes("+") ? iso : iso + "Z";
+  return new Date(normalized).toLocaleString("tr-TR", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function formatPhone(raw: string | null): string {
+  if (!raw) return "—";
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("90")) {
+    const num = digits.slice(2);
+    return `+90-${num.slice(0, 3)}-${num.slice(3, 6)}-${num.slice(6, 8)}-${num.slice(8, 10)}`;
+  }
+  if (digits.length === 11 && digits.startsWith("0")) {
+    const num = digits.slice(1);
+    return `+90-${num.slice(0, 3)}-${num.slice(3, 6)}-${num.slice(6, 8)}-${num.slice(8, 10)}`;
+  }
+  return raw;
 }
 
 function formatCurrency(amount: number, currency: string): string {
@@ -236,7 +253,7 @@ export default function PaymentDetailModal({ paymentId, onClose }: Props) {
                 <div className="grid grid-cols-2 gap-4">
                   <InfoItem label="Ad Soyad" value={detail.customerName} />
                   <InfoItem label="E-posta" value={detail.customerEmail ?? "—"} />
-                  <InfoItem label="Telefon" value={detail.customerPhone ?? "—"} />
+                  <InfoItem label="Telefon" value={formatPhone(detail.customerPhone)} />
                 </div>
               </div>
 
@@ -347,11 +364,6 @@ export default function PaymentDetailModal({ paymentId, onClose }: Props) {
                   <InfoItem
                     label="BiletBank Payment ID"
                     value={detail.biletBankPaymentId ?? "—"}
-                    mono
-                  />
-                  <InfoItem
-                    label="Provider Transaction ID"
-                    value={detail.providerTransactionId ?? "—"}
                     mono
                   />
                   <InfoItem
