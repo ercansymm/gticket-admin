@@ -48,10 +48,11 @@ const navItems: NavItem[] = [
       { name: "3D Secure Başarısız", path: "/payments/failed-3ds", pro: false },
     ],
   },
+
   {
-    icon: <PageIcon />,
-    name: "Popüler Rotalar",
-    path: "/popular-routes",
+    icon: <ListIcon />,
+    name: "Destek Talepleri",
+    path: "/support-tickets",
   },
 ];
 
