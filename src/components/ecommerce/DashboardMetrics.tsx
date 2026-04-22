@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { ArrowDownIcon, ArrowUpIcon, BoxIconLine, GroupIcon } from "@/icons";
 import { dashboardApi } from "@/lib/dashboard";
 import type { DashboardStats } from "@/types/admin";
+import { useAuth } from "@/context/AuthContext";
 
 const formatTRY = (val: number) =>
   new Intl.NumberFormat("tr-TR", {
@@ -91,6 +92,7 @@ function ChangeBadge({ value }: { value: number }) {
 }
 
 export const DashboardMetrics = () => {
+  const { user } = useAuth();
   const [data, setData] = useState<DashboardStats | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -114,6 +116,26 @@ export const DashboardMetrics = () => {
     load();
   }, [load]);
 
+  // Sadece SuperAdmin gerçek verileri görebilir, diğer rollerde tüm değerler 0 gösterilir
+  const isSuperAdmin = user?.role === "SuperAdmin";
+  const safeData: DashboardStats | null = data
+    ? isSuperAdmin
+      ? data
+      : {
+          totalBookings: 0,
+          totalBookingsThisMonth: 0,
+          totalRevenue: 0,
+          totalRevenueThisMonth: 0,
+          totalCustomers: 0,
+          totalCustomersThisMonth: 0,
+          activeUsers: 0,
+          bookingsChangePercent: 0,
+          revenueChangePercent: 0,
+          customersChangePercent: 0,
+          activeUsersChangePercent: 0,
+        }
+    : null;
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 md:gap-6">
@@ -130,7 +152,7 @@ export const DashboardMetrics = () => {
     );
   }
 
-  if (error || !data) {
+  if (error || !safeData) {
     return (
       <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-400">
         <div className="flex items-center justify-between gap-4">
@@ -150,8 +172,8 @@ export const DashboardMetrics = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 md:gap-6">
       {CARDS.map((c) => {
-        const value = data[c.key];
-        const change = data[c.changeKey];
+        const value = safeData[c.key];
+        const change = safeData[c.changeKey];
         return (
           <div key={c.key} className={cardWrapperCls}>
             <div

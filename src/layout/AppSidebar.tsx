@@ -24,57 +24,68 @@ type NavItem = {
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
-const navItems: NavItem[] = [
-  {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    path: "/",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Müşteriler",
-    path: "/customers",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Rezervasyonlar",
-    path: "/bookings",
-  },
-  {
-    icon: <TableIcon />,
-    name: "Ödemeler",
-    subItems: [
-      { name: "Tüm Ödemeler", path: "/payments", pro: false },
-      { name: "3D Secure Başarısız", path: "/payments/failed-3ds", pro: false },
-    ],
-  },
+function getNavItemsByRole(role?: string): NavItem[] {
+  const items: NavItem[] = [];
+  if (role === "SuperAdmin") {
+    items.push({
+      icon: <GridIcon />,
+      name: "Dashboard",
+      path: "/",
+    });
+  }
+  items.push(
+    {
+      icon: <UserCircleIcon />,
+      name: "Müşteriler",
+      path: "/customers",
+    },
+    {
+      icon: <ListIcon />,
+      name: "Rezervasyonlar",
+      path: "/bookings",
+    },
+    {
+      icon: <TableIcon />,
+      name: "Ödemeler",
+      subItems: [
+        { name: "Tüm Ödemeler", path: "/payments", pro: false },
+        { name: "3D Secure Başarısız", path: "/payments/failed-3ds", pro: false },
+      ],
+    },
+    {
+      icon: <ListIcon />,
+      name: "Destek Talepleri",
+      path: "/support-tickets",
+    }
+  );
+  return items;
+}
 
-  {
-    icon: <ListIcon />,
-    name: "Destek Talepleri",
-    path: "/support-tickets",
-  },
-];
-
-const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Loglar",
-    subItems: [
-      { name: "Arama Logları", path: "/logs/search", pro: false },
-      { name: "Sistem Logları", path: "/logs/system", pro: false },
-      { name: "BiletBank Hataları", path: "/logs/biletbank-errors", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Yönetim",
-    subItems: [
-      { name: "Admin Kullanıcıları", path: "/admin-users", pro: false },
-      { name: "Ayarlar", path: "/settings", pro: false },
-    ],
-  },
-];
+function getOthersItemsByRole(role?: string): NavItem[] {
+  const items: NavItem[] = [];
+  if (role === "SuperAdmin") {
+    items.push({
+      icon: <PieChartIcon />,
+      name: "Loglar",
+      subItems: [
+        { name: "Arama Logları", path: "/logs/search", pro: false },
+        { name: "Sistem Logları", path: "/logs/system", pro: false },
+        { name: "BiletBank Hataları", path: "/logs/biletbank-errors", pro: false },
+      ],
+    });
+  }
+  if (role === "SuperAdmin") {
+    items.push({
+      icon: <BoxCubeIcon />,
+      name: "Yönetim",
+      subItems: [
+        { name: "Admin Kullanıcıları", path: "/admin-users", pro: false },
+        { name: "Ayarlar", path: "/settings", pro: false },
+      ],
+    });
+  }
+  return items;
+}
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
@@ -82,13 +93,8 @@ const AppSidebar: React.FC = () => {
 
   const { user } = useAuth();
 
-// SuperAdmin değilse "Yönetim" menüsünü gizle
-const filteredOthersItems = othersItems.filter((item) => {
-  if (item.name === "Yönetim") {
-    return user?.role === "SuperAdmin";
-  }
-  return true;
-});
+const navItems = getNavItemsByRole(user?.role);
+const filteredOthersItems = getOthersItemsByRole(user?.role);
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
     index: number;

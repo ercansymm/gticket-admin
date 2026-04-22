@@ -112,12 +112,12 @@ export default function SupportTicketsTable() {
   }, [searchInput]);
 
   const handleStatusChange = (value: string) => {
-    setStatusFilter(value === "all" ? "all" : (Number(value) as SupportTicketStatus));
+    setStatusFilter(value === "all" ? "all" : (value as SupportTicketStatus));
     setPage(1);
   };
 
   const handleTypeChange = (value: string) => {
-    setTypeFilter(value === "all" ? "all" : (Number(value) as SupportTicketType));
+    setTypeFilter(value === "all" ? "all" : (value as SupportTicketType));
     setPage(1);
   };
 
@@ -151,7 +151,7 @@ export default function SupportTicketsTable() {
 
           {/* Status filter */}
           <select
-            value={statusFilter === "all" ? "all" : statusFilter.toString()}
+            value={statusFilter === "all" ? "all" : statusFilter}
             onChange={(e) => handleStatusChange(e.target.value)}
             className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
           >
@@ -162,7 +162,7 @@ export default function SupportTicketsTable() {
 
           {/* Type filter */}
           <select
-            value={typeFilter === "all" ? "all" : typeFilter.toString()}
+            value={typeFilter === "all" ? "all" : typeFilter}
             onChange={(e) => handleTypeChange(e.target.value)}
             className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-800 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200"
           >

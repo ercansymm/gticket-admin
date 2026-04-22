@@ -1,23 +1,25 @@
 // Destek Talebi Sistemi — tip tanımları
 // Backend: GBILET.Core/DTOs/Support/SupportTicketDtos.cs
+// NOT: Backend JSON serializer'ı JsonStringEnumConverter kullanıyor,
+// bu yüzden enum'lar string olarak gelir ("Open", "Refund", "Customer", ...).
 
 // ===== Enum'lar =====
 
 export enum SupportTicketType {
-  Refund = 1,
-  Change = 2,
-  Complaint = 3,
-  Technical = 4,
+  Refund = "Refund",
+  Change = "Change",
+  Complaint = "Complaint",
+  Technical = "Technical",
 }
 
 export enum SupportTicketStatus {
-  Open = 1,
-  Closed = 2,
+  Open = "Open",
+  Closed = "Closed",
 }
 
 export enum SupportMessageSenderType {
-  Customer = 1,
-  Admin = 2,
+  Customer = "Customer",
+  Admin = "Admin",
 }
 
 // ===== Label map'ler =====
