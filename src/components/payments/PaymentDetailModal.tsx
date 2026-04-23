@@ -32,7 +32,6 @@ const statusLabel: Record<PaymentStatusCategory, string> = {
 };
 
 const paymentTypeLabel: Record<string, string> = {
-  RunningAccount: "Cari Hesap",
   CreditCard: "Kredi Kartı (3D Secure)",
   CreditCardDirect: "Kredi Kartı (Direkt)",
 };
