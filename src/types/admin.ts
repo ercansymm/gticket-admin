@@ -107,6 +107,7 @@ export type BookingStatusCategory = "confirmed" | "pending" | "cancelled" | "fai
 export interface AdminBookingListItem {
   id: string;
   pnr: string | null;
+  internalPnr: string | null;
   passengerName: string;
   passengerCount: number;
   route: string;

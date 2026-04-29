@@ -277,8 +277,13 @@ export default function BookingsTable() {
                   >
                     <TableCell className="px-4 py-3 sm:px-6">
                       <span className="font-mono font-semibold text-gray-800 text-theme-sm dark:text-white/90">
-                        {b.pnr ?? "—"}
+                        {b.internalPnr ?? "—"}
                       </span>
+                      {b.pnr && (
+                        <div className="font-mono text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                          BB: {b.pnr}
+                        </div>
+                      )}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-700 text-theme-sm dark:text-gray-300 sm:px-6">
                       <div>
