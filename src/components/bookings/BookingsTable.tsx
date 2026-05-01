@@ -247,24 +247,7 @@ export default function BookingsTable() {
                 <TableRow>
                   <TableCell className="px-4 py-10 text-center text-gray-500 text-theme-sm sm:px-6">
                     <div className="flex flex-col items-center gap-3">
-                      <svg
-                        className="h-10 w-10 text-gray-300 dark:text-gray-600"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      >
-                        <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-                        <rect x="9" y="3" width="6" height="4" rx="1" />
-                      </svg>
-                      <span>Henüz rezervasyon bulunmuyor.</span>
-                      <button
-                        onClick={handleSeed}
-                        disabled={seeding}
-                        className="mt-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-600 disabled:opacity-50 transition"
-                      >
-                        {seeding ? "Oluşturuluyor..." : "Test Verisi Oluştur"}
-                      </button>
+                      <span>Böyle Bir Veri Yok.</span>
                     </div>
                   </TableCell>
                 </TableRow>
