@@ -69,11 +69,10 @@ export const blogApi = {
   },
 
   async uploadImage(file: File): Promise<string> {
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch(`${API_BASE_URL}/api/admin/blog/upload-image`, {
+    const res = await fetch("/api/blog/upload-image", {
       method: "POST",
       credentials: "include",
       body: formData,
