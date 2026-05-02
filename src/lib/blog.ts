@@ -47,6 +47,8 @@ export interface BlogPostFormData {
   isPublished: boolean;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+
 export const blogApi = {
   list() {
     return api.get<BlogPostDto[]>("/api/admin/blog");
@@ -72,7 +74,7 @@ export const blogApi = {
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("/api/blog/upload-image", {
+    const res = await fetch(`${API_BASE_URL}/api/admin/blog/upload-image`, {
       method: "POST",
       credentials: "include",
       body: formData,
