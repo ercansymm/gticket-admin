@@ -26,6 +26,16 @@ type NavItem = {
 
 function getNavItemsByRole(role?: string): NavItem[] {
   const items: NavItem[] = [];
+
+  if (role === "BlogEditor") {
+    items.push({
+      icon: <PageIcon />,
+      name: "Blog Yazıları",
+      path: "/blog-posts",
+    });
+    return items;
+  }
+
   if (role === "SuperAdmin") {
     items.push({
       icon: <GridIcon />,
@@ -56,8 +66,15 @@ function getNavItemsByRole(role?: string): NavItem[] {
       icon: <ListIcon />,
       name: "Destek Talepleri",
       path: "/support-tickets",
-    }
+    },
   );
+  if (role !== "CallCenter") {
+    items.push({
+      icon: <PageIcon />,
+      name: "Blog Yazıları",
+      path: "/blog-posts",
+    });
+  }
   return items;
 }
 

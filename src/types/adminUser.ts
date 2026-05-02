@@ -1,4 +1,4 @@
-export type AdminRole = "SuperAdmin" | "CallCenter" | "ReadOnly";
+export type AdminRole = "SuperAdmin" | "CallCenter" | "ReadOnly" | "BlogEditor";
 
 export interface AdminUserListItem {
   id: string;
@@ -47,10 +47,12 @@ export const ROLE_LABELS: Record<AdminRole, string> = {
   SuperAdmin: "Süper Admin",
   CallCenter: "Çağrı Merkezi",
   ReadOnly: "Salt Okunur",
+  BlogEditor: "Blog Editörü",
 };
 
 export const ROLE_OPTIONS: { value: AdminRole; label: string }[] = [
   { value: "SuperAdmin", label: "Süper Admin" },
   { value: "CallCenter", label: "Çağrı Merkezi" },
   { value: "ReadOnly", label: "Salt Okunur" },
+  { value: "BlogEditor", label: "Blog Editörü" },
 ];
