@@ -189,6 +189,7 @@ export interface CustomerListItem {
   email: string;
   phone: string | null;
   bookingCount: number;
+  createdAt?: string | null;
 }
 
 export interface CustomerListResponse {

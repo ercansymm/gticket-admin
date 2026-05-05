@@ -28,4 +28,10 @@ export const customersApi = {
       `/api/admin/customers/booking-contacts${buildQuery(params)}`,
     );
   },
+
+  registeredUsers(params: CustomerListParams = {}) {
+    return api.get<CustomerListResponse>(
+      `/api/admin/customers/registered-users${buildQuery(params)}`,
+    );
+  },
 };

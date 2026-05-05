@@ -10,6 +10,7 @@ import {
 } from "../ui/table";
 import { customersApi, type CustomerListParams } from "@/lib/customers";
 import type { CustomerListItem } from "@/types/admin";
+import CustomerDetailModal from "./CustomerDetailModal";
 
 type TabKey = "registered" | "guest";
 
@@ -46,6 +47,7 @@ export default function CustomersTable() {
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerListItem | null>(null);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -62,12 +64,6 @@ export default function CustomersTable() {
   }, [search]);
 
   const fetchData = useCallback(async () => {
-    if (tab === "registered") {
-      setItems([]);
-      setTotalCount(0);
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     setError(null);
     try {
@@ -77,7 +73,9 @@ export default function CustomersTable() {
       };
       if (debouncedSearch) params.search = debouncedSearch;
 
-      const res = await customersApi.bookingContacts(params);
+      const res = tab === "registered"
+        ? await customersApi.registeredUsers(params)
+        : await customersApi.bookingContacts(params);
 
       setItems(res.items);
       setTotalCount(res.totalCount);
@@ -121,6 +119,7 @@ export default function CustomersTable() {
   ));
 
   return (
+    <>
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
       {/* Tabs */}
       <div className="flex gap-0 border-b border-gray-100 dark:border-gray-800">
@@ -139,34 +138,32 @@ export default function CustomersTable() {
         ))}
       </div>
 
-      {/* Search — only for guest tab */}
-      {tab === "guest" && (
-        <div className="flex flex-col gap-4 p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800">
-          <div className="relative w-full sm:max-w-xs">
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(normalizeTurkish(e.target.value))}
-              placeholder="Ad, email veya telefon ile ara..."
-              className="w-full h-10 pl-10 pr-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 outline-none focus:border-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
-            />
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </div>
+      {/* Search */}
+      <div className="flex flex-col gap-4 p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800">
+        <div className="relative w-full sm:max-w-xs">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(normalizeTurkish(e.target.value))}
+            placeholder="Ad, email veya telefon ile ara..."
+            className="w-full h-10 pl-10 pr-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-700 placeholder-gray-400 outline-none focus:border-emerald-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+          />
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
         </div>
-      )}
+      </div>
 
       {/* Error */}
       {error && (
@@ -205,31 +202,6 @@ export default function CustomersTable() {
           <TableBody className="divide-y divide-gray-100 dark:divide-gray-800">
             {loading ? (
               skeletonRows
-            ) : tab === "registered" ? (
-              <TableRow>
-                <TableCell className="px-4 py-14 text-center sm:px-6">
-                  <div className="flex flex-col items-center gap-2">
-                    <svg
-                      className="h-10 w-10 text-gray-300 dark:text-gray-600"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    >
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                      Henüz kayıtlı müşteri bulunmuyor
-                    </span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500">
-                      Müşteri kayıt sistemi aktif olduğunda burada görüntülenecek
-                    </span>
-                  </div>
-                </TableCell>
-              </TableRow>
             ) : items.length === 0 ? (
               <TableRow>
                 <TableCell className="px-4 py-10 text-center text-gray-500 text-theme-sm sm:px-6">
@@ -240,7 +212,8 @@ export default function CustomersTable() {
               items.map((c, idx) => (
                 <TableRow
                   key={`${c.email}-${idx}`}
-                  className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition"
+                  className="cursor-pointer hover:bg-gray-50 dark:hover:bg-white/[0.02] transition"
+                  onClick={() => setSelectedCustomer(c)}
                 >
                   <TableCell className="px-4 py-3 sm:px-6">
                     <div className="flex items-center gap-3">
@@ -278,9 +251,8 @@ export default function CustomersTable() {
         </Table>
       </div>
 
-      {/* Pagination — only for guest tab */}
-      {tab === "guest" && (
-        <div className="flex flex-col gap-3 p-4 sm:p-6 sm:flex-row sm:items-center sm:justify-between border-t border-gray-100 dark:border-gray-800">
+      {/* Pagination */}
+      <div className="flex flex-col gap-3 p-4 sm:p-6 sm:flex-row sm:items-center sm:justify-between border-t border-gray-100 dark:border-gray-800">
           <span className="text-sm text-gray-500 dark:text-gray-400">
             Toplam{" "}
             <span className="font-semibold text-gray-800 dark:text-white/90">
@@ -316,7 +288,15 @@ export default function CustomersTable() {
             </button>
           </div>
         </div>
-      )}
     </div>
+
+    {selectedCustomer && (
+      <CustomerDetailModal
+        customer={selectedCustomer}
+        tab={tab}
+        onClose={() => setSelectedCustomer(null)}
+      />
+    )}
+    </>
   );
 }
