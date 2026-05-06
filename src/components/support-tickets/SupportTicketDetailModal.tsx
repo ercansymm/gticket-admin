@@ -258,13 +258,32 @@ export default function SupportTicketDetailModal({ ticketId, onClose }: Props) {
             {/* Müşteri + Rezervasyon bilgileri */}
             <div className="grid grid-cols-1 gap-4 border-b border-gray-200 px-6 py-4 text-sm sm:grid-cols-2 dark:border-gray-800">
               <div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Müşteri</div>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">Müşteri</span>
+                  {ticket.isGuest && (
+                    <span className="inline-flex items-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-amber-200 dark:bg-amber-500/15 dark:text-amber-400 dark:ring-amber-500/30">
+                      Misafir
+                    </span>
+                  )}
+                </div>
                 <div className="font-medium text-gray-800 dark:text-gray-100">
                   {ticket.customerFullName}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">
-                  {ticket.customerEmail}
-                </div>
+                {ticket.isGuest ? (
+                  ticket.guestEmail ? (
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {ticket.guestEmail}
+                    </div>
+                  ) : (
+                    <div className="text-xs italic text-gray-400 dark:text-gray-500">
+                      E-posta belirtilmedi
+                    </div>
+                  )
+                ) : (
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
+                    {ticket.customerEmail}
+                  </div>
+                )}
                 {ticket.customerPhone && (
                   <div className="text-xs text-gray-500 dark:text-gray-400">
                     {ticket.customerPhone}

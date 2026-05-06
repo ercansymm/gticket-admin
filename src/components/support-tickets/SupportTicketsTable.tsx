@@ -240,9 +240,20 @@ export default function SupportTicketsTable() {
                     </Badge>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex flex-col">
-                      <span className="text-gray-800 dark:text-gray-100">{ticket.customerFullName}</span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">{ticket.customerEmail}</span>
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-gray-800 dark:text-gray-100">{ticket.customerFullName}</span>
+                        {ticket.isGuest && (
+                          <span className="inline-flex items-center rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium text-amber-700 ring-1 ring-amber-200 dark:bg-amber-500/15 dark:text-amber-400 dark:ring-amber-500/30">
+                            Misafir
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {ticket.isGuest
+                          ? (ticket.guestEmail ?? <span className="italic text-gray-400">e-posta yok</span>)
+                          : ticket.customerEmail}
+                      </span>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-gray-700 dark:text-gray-300">

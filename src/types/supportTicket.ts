@@ -67,10 +67,12 @@ export interface SupportTicketListItemDto {
   customerId: string;
   customerFullName: string;
   customerEmail: string;
+  guestEmail: string | null;
+  isGuest: boolean;
   bookingId: string | null;
   pnr: string | null;
   messageCount: number;
-  lastActivityAt: string; // ISO date
+  lastActivityAt: string;
   createdAt: string;
 }
 
@@ -92,6 +94,8 @@ export interface SupportTicketDetailDto {
   customerId: string;
   customerFullName: string;
   customerEmail: string;
+  guestEmail: string | null;
+  isGuest: boolean;
   customerPhone: string | null;
   bookingId: string | null;
   pnr: string | null;

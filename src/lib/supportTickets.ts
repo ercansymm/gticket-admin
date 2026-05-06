@@ -26,9 +26,11 @@ interface BackendListItem {
   status: SupportTicketStatus;
   bookingId: string | null;
   bookingPnr: string | null;
-  userId: string;
+  userId: string | null;
+  guestSessionId: string | null;
   userFullName: string | null;
   userEmail: string | null;
+  guestEmail: string | null;
   lastMessagePreview: string | null;
   lastMessageSenderType: SupportMessageSenderType | null;
   messageCount: number;
@@ -56,9 +58,11 @@ interface BackendDetail {
   bookingOrigin: string | null;
   bookingDestination: string | null;
   bookingStatus: string | null;
-  userId: string;
+  userId: string | null;
+  guestSessionId: string | null;
   userFullName: string | null;
   userEmail: string | null;
+  guestEmail: string | null;
   userPhone: string | null;
   closedAt: string | null;
   closedByAdminId: string | null;
@@ -90,15 +94,18 @@ function mapMessage(m: BackendMessage): SupportTicketMessageDto {
 }
 
 function mapListItem(t: BackendListItem): SupportTicketListItemDto {
+  const isGuest = !t.userId && !!t.guestSessionId;
   return {
     id: t.id,
     ticketNumber: t.ticketNumber,
     type: t.type,
     subject: t.subject,
     status: t.status,
-    customerId: t.userId,
+    customerId: t.userId ?? t.guestSessionId ?? "",
     customerFullName: t.userFullName ?? "—",
-    customerEmail: t.userEmail ?? "—",
+    customerEmail: t.userEmail ?? "",
+    guestEmail: t.guestEmail ?? null,
+    isGuest,
     bookingId: t.bookingId,
     pnr: t.bookingPnr,
     messageCount: t.messageCount,
@@ -112,15 +119,18 @@ function mapDetail(t: BackendDetail): SupportTicketDetailDto {
     t.bookingOrigin && t.bookingDestination
       ? `${t.bookingOrigin} → ${t.bookingDestination}`
       : null;
+  const isGuest = !t.userId && !!t.guestSessionId;
   return {
     id: t.id,
     ticketNumber: t.ticketNumber,
     type: t.type,
     subject: t.subject,
     status: t.status,
-    customerId: t.userId,
+    customerId: t.userId ?? t.guestSessionId ?? "",
     customerFullName: t.userFullName ?? "—",
-    customerEmail: t.userEmail ?? "—",
+    customerEmail: t.userEmail ?? "",
+    guestEmail: t.guestEmail ?? null,
+    isGuest,
     customerPhone: t.userPhone,
     bookingId: t.bookingId,
     pnr: t.bookingPnr,
