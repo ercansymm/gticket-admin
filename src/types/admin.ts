@@ -153,6 +153,31 @@ export interface AdminBookingLog {
   httpStatusCode: number | null;
 }
 
+export interface AdminFlightSegment {
+  id: string;
+  sequenceNo: number;
+  marketingAirline: string;
+  flightNumber: string;
+  originCode: string;
+  destinationCode: string;
+  departureDate: string;
+  departureTime: string | null;
+  arrivalDate: string | null;
+  arrivalTime: string | null;
+  bookingClass: string | null;
+  baggage: string | null;
+  ticketNumber: string | null;
+}
+
+export interface AdminBookingChangeLogItem {
+  id: string;
+  fieldName: string;
+  oldValue: string | null;
+  newValue: string | null;
+  changedByAdminId: string | null;
+  changedAt: string;
+}
+
 export interface AdminBookingDetail {
   id: string;
   pnr: string | null;
@@ -179,7 +204,20 @@ export interface AdminBookingDetail {
   cancelledAt: string | null;
   lastError: string | null;
   passengers: AdminPassenger[];
+  flightSegments: AdminFlightSegment[];
   logs: AdminBookingLog[];
+  changeLog: AdminBookingChangeLogItem[];
+}
+
+export interface BookingFieldChange {
+  fieldName: string;
+  oldValue: string;
+  newValue: string;
+}
+
+export interface SyncPreviewResult {
+  hasChanges: boolean;
+  changes: BookingFieldChange[];
 }
 
 // ===== Customers =====

@@ -3,6 +3,7 @@ import type {
   AdminBookingListResponse,
   AdminBookingDetail,
   BookingStatusCategory,
+  SyncPreviewResult,
 } from "@/types/admin";
 
 export interface BookingListParams {
@@ -41,5 +42,13 @@ export const bookingsApi = {
     return api.post<{ message: string; count: number }>(
       "/api/admin/seed/bookings",
     );
+  },
+
+  syncPreview(id: string) {
+    return api.get<SyncPreviewResult>(`/api/admin/bookings/${id}/sync-preview`);
+  },
+
+  syncConfirm(id: string) {
+    return api.post<{ message: string }>(`/api/admin/bookings/${id}/sync-confirm`);
   },
 };

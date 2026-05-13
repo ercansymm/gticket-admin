@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -228,6 +229,7 @@ export default function BookingsTable() {
                   "Tarih",
                   "Tutar",
                   "Durum",
+                  "",
                 ].map((h) => (
                   <TableCell
                     key={h}
@@ -297,6 +299,14 @@ export default function BookingsTable() {
                       >
                         {statusLabel[b.statusCategory]}
                       </Badge>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 sm:px-6" onClick={(e) => e.stopPropagation()}>
+                      <Link
+                        href={`/bookings/${b.id}`}
+                        className="text-xs font-semibold text-[#047857] hover:underline"
+                      >
+                        Detay
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))
