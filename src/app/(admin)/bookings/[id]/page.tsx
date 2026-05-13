@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Rezervasyon Detayı | ATABİLET Admin",
 };
 
-export default function BookingDetailPage({ params }: { params: { id: string } }) {
-  return <BookingDetailClient bookingId={params.id} />;
+export default async function BookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <BookingDetailClient bookingId={id} />;
 }

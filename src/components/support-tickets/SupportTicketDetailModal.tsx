@@ -9,6 +9,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import { X, Loader2, Send, AlertCircle } from "lucide-react";
 import {
   getSupportTicketById,
@@ -299,6 +300,17 @@ export default function SupportTicketDetailModal({ ticketId, onClose }: Props) {
                     </div>
                     {ticket.route && (
                       <div className="text-xs text-gray-500 dark:text-gray-400">{ticket.route}</div>
+                    )}
+                    {ticket.bookingId && (
+                      <Link
+                        href={`/bookings/${ticket.bookingId}`}
+                        className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-[#047857] hover:underline"
+                      >
+                        Rezervasyonu Senkronize Et
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M7 17 17 7M7 7h10v10"/>
+                        </svg>
+                      </Link>
                     )}
                   </>
                 ) : (
