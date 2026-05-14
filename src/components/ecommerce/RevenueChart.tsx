@@ -5,6 +5,22 @@ import { ApexOptions } from "apexcharts";
 import { dashboardApi } from "@/lib/dashboard";
 import type { DashboardRevenuePoint } from "@/types/admin";
 
+function useIsDark() {
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    const check = () =>
+      setIsDark(document.documentElement.classList.contains("dark"));
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return isDark;
+}
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const TR_MONTHS_SHORT = [
@@ -31,6 +47,7 @@ const formatTRY = (val: number) =>
 const MONTHS = 6;
 
 export default function RevenueChart() {
+  const isDark = useIsDark();
   const [data, setData] = useState<DashboardRevenuePoint[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +87,13 @@ export default function RevenueChart() {
     };
   }, [data]);
 
+  const tooltipBg = isDark ? "#1e293b" : "#ffffff";
+  const tooltipText = isDark ? "#e2e8f0" : "#111827";
+  const tooltipSub = isDark ? "#94a3b8" : "#6b7280";
+  const tooltipBorder = isDark ? "#334155" : "#e5e7eb";
+  const gridColor = isDark ? "#1e293b" : "#f3f4f6";
+  const labelColor = isDark ? "#9ca3af" : "#6B7280";
+
   const options: ApexOptions = {
     legend: { show: false },
     colors: ["#10B981"],
@@ -78,7 +102,9 @@ export default function RevenueChart() {
       height: 310,
       type: "area",
       toolbar: { show: false },
+      background: "transparent",
     },
+    theme: { mode: isDark ? "dark" : "light" },
     stroke: { curve: "smooth", width: 2 },
     fill: {
       type: "gradient",
@@ -91,11 +117,12 @@ export default function RevenueChart() {
     },
     markers: {
       size: 0,
-      strokeColors: "#fff",
+      strokeColors: isDark ? "#1e293b" : "#fff",
       strokeWidth: 2,
       hover: { size: 6 },
     },
     grid: {
+      borderColor: gridColor,
       xaxis: { lines: { show: false } },
       yaxis: { lines: { show: true } },
     },
@@ -107,10 +134,10 @@ export default function RevenueChart() {
         const bookings = bookingCounts[dataPointIndex] ?? 0;
         const label = categories[dataPointIndex] ?? "";
         return `
-          <div style="padding:8px 12px;font-size:12px">
-            <div style="font-weight:600;margin-bottom:4px">${label}</div>
-            <div>Gelir: <b>${formatTRY(rev)}</b></div>
-            <div>Rezervasyon: <b>${bookings}</b></div>
+          <div style="padding:10px 14px;font-size:12px;background:${tooltipBg};color:${tooltipText};border-radius:8px;border:1px solid ${tooltipBorder};box-shadow:0 4px 12px rgba(0,0,0,0.15)">
+            <div style="font-weight:600;margin-bottom:6px;color:${tooltipText}">${label}</div>
+            <div style="color:${tooltipSub}">Gelir: <b style="color:${tooltipText}">${formatTRY(rev)}</b></div>
+            <div style="color:${tooltipSub}">Rezervasyon: <b style="color:${tooltipText}">${bookings}</b></div>
           </div>
         `;
       },
@@ -121,10 +148,11 @@ export default function RevenueChart() {
       axisBorder: { show: false },
       axisTicks: { show: false },
       tooltip: { enabled: false },
+      labels: { style: { colors: labelColor, fontSize: "12px" } },
     },
     yaxis: {
       labels: {
-        style: { fontSize: "12px", colors: ["#6B7280"] },
+        style: { fontSize: "12px", colors: [labelColor] },
         formatter: (val: number) => {
           if (val >= 1000) return `${(val / 1000).toFixed(0)}K`;
           return val.toString();
