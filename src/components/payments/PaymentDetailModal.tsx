@@ -232,7 +232,7 @@ export default function PaymentDetailModal({ paymentId, onClose }: Props) {
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <InfoItem label="ATA PNR" value={detail.internalPnr ?? "—"} mono />
-                  <InfoItem label="BiletBank PNR" value={detail.pnr ?? "—"} mono />
+                  <InfoItem label="Havayolu PNR" value={detail.pnr ?? "—"} mono />
                   <InfoItem label="Güzergah" value={detail.route} />
                   <InfoItem
                     label="Uçuş"

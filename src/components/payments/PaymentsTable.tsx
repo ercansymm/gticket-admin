@@ -213,7 +213,7 @@ export default function PaymentsTable() {
               <TableRow>
                 {[
                   "ATA PNR",
-                  "BiletBank PNR",
+                  "Havayolu PNR",
                   "Müşteri",
                   "Tutar",
                   "Yöntem",
