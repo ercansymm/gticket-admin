@@ -85,10 +85,10 @@ const AppHeader: React.FC = () => {
 <Link href="/" className="lg:hidden">
   <div className="flex items-center gap-2">
     <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-500 text-white font-bold text-sm">
-      G
+      ATA
     </div>
     <span className="text-base font-bold text-gray-900 dark:text-white">
-      G-Ticket
+      ATABİLET
     </span>
   </div>
 </Link>
